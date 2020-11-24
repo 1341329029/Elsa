@@ -6,18 +6,39 @@
   "description": "",
   "glyphs": [
     {
-      "icon_id": "11349020",
-      "name": "fontbig",
-      "font_class": "fontbig",
-      "unicode": "e62a",
-      "unicode_decimal": 58922
+      "icon_id": "3819598",
+      "name": "color",
+      "font_class": "color",
+      "unicode": "e764",
+      "unicode_decimal": 59236
     },
     {
-      "icon_id": "11349033",
-      "name": "fontsmall",
-      "font_class": "fontsmall",
-      "unicode": "e62c",
-      "unicode_decimal": 58924
+      "icon_id": "4026915",
+      "name": "square Selected-s",
+      "font_class": "squareSelected-s",
+      "unicode": "e6bc",
+      "unicode_decimal": 59068
+    },
+    {
+      "icon_id": "13053047",
+      "name": "square",
+      "font_class": "square",
+      "unicode": "e920",
+      "unicode_decimal": 59680
+    },
+    {
+      "icon_id": "17412277",
+      "name": "Font Increase",
+      "font_class": "FontIncrease",
+      "unicode": "e680",
+      "unicode_decimal": 59008
+    },
+    {
+      "icon_id": "17412279",
+      "name": "Font Decrease",
+      "font_class": "FontDecrease",
+      "unicode": "e681",
+      "unicode_decimal": 59009
     }
   ]
 }

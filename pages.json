@@ -1,6 +1,12 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
+			"path":"pages/frameChoose/frameChoose",
+			"style": {
+				"navigationBarTitleText": "选择模板"
+			}
+		},
+		{
 			"path":"pages/wm-poster/wm-poster",
 			"style": {
 				"navigationBarTitleText": "海报编辑"
