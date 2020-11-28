@@ -6,7 +6,7 @@
 		<view style="height: 106rpx;"></view>
 		<view class="footer">
 			<view style="height: 106rpx; align-items: center; background-color: #333333;">
-				<button style="background: transparent; height: 106rpx; line-height: 106rpx;" @tap="toSaveImage">生成海报</button>
+				<button style="background: transparent; height: 106rpx; line-height: 106rpx;" @tap="toSaveImage">保存名片</button>
 			</view>
 		</view>
 	</view>
@@ -16,12 +16,12 @@
 	export default {
 		data() {
 			return {
-				mpWxQr: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1605881257914&di=cc53d7944d14aad10ebb3d78227516c3&imgtype=0&src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fimages%2F20180913%2Ffb3a147974fd4020a1f9ce16185e11bd.jpeg",
+				mpWxQr: "https://as.datianshi.com/media/mp/2/wx/qr.PNG",
 				canvasW: 0,
 				canvasH: 0,
 				invest_areas: [{id: 1, name: "儿童教育"}, {id: 1, name: "少儿编程"}, {id: 1, name: "生物智能"}, {id: 1, name: "万物相连"}, {id: 1, name: "大数据"}],
 				nickname: "热豆Wakary",
-				avatar: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1605881257914&di=cc53d7944d14aad10ebb3d78227516c3&imgtype=0&src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fimages%2F20180913%2Ffb3a147974fd4020a1f9ce16185e11bd.jpeg",
+				avatar: "https://as.datianshi.com/media/9/tmp_f9fdf9ee13548fa97fb1e7c8d0be7e30ee02ed1b533d39e7.jpg",
 				company: "热豆科技",
 				phone: "17610998099",
 				email: "redoume@163.com",
@@ -63,13 +63,13 @@
 							filePath: res.tempFilePath,
 							success: () => {
 								uni.showToast({
-									title: '生成成功'
+									title: '保存成功'
 								})
 							},
 							fail() {
 								uni.showToast({
 									icon: 'none',
-									title: '生成失败'
+									title: '保存名片码失败'
 								})
 							}
 						})
@@ -77,7 +77,7 @@
 					fail() {
 						uni.showToast({
 							icon: 'none',
-							title: '生成失败'
+							title: '保存名片码失败'
 						})
 					}
 				})

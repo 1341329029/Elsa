@@ -20,6 +20,62 @@
       "unicode_decimal": 59068
     },
     {
+      "icon_id": "4579829",
+      "name": "arrows-alt",
+      "font_class": "arrowsalt",
+      "unicode": "e948",
+      "unicode_decimal": 59720
+    },
+    {
+      "icon_id": "4579830",
+      "name": "arrow-left",
+      "font_class": "arrowleft",
+      "unicode": "e949",
+      "unicode_decimal": 59721
+    },
+    {
+      "icon_id": "4579831",
+      "name": "arrow-right",
+      "font_class": "arrowright",
+      "unicode": "e94a",
+      "unicode_decimal": 59722
+    },
+    {
+      "icon_id": "4579832",
+      "name": "arrow-up",
+      "font_class": "arrowup",
+      "unicode": "e94b",
+      "unicode_decimal": 59723
+    },
+    {
+      "icon_id": "4579834",
+      "name": "arrow-down",
+      "font_class": "arrowdown",
+      "unicode": "e94c",
+      "unicode_decimal": 59724
+    },
+    {
+      "icon_id": "4579846",
+      "name": "enter",
+      "font_class": "enter",
+      "unicode": "e94f",
+      "unicode_decimal": 59727
+    },
+    {
+      "icon_id": "4579871",
+      "name": "shrink",
+      "font_class": "shrink",
+      "unicode": "e957",
+      "unicode_decimal": 59735
+    },
+    {
+      "icon_id": "8559022",
+      "name": "up",
+      "font_class": "up",
+      "unicode": "e654",
+      "unicode_decimal": 58964
+    },
+    {
       "icon_id": "13053047",
       "name": "square",
       "font_class": "square",
