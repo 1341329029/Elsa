@@ -7,6 +7,12 @@
 			}
 		},
 		{
+			"path":"pages/phoneChoose/phoneChoose",
+			"style": {
+				"navigationBarTitleText": "分类"
+			}
+		},
+		{
 			"path":"pages/wm-poster/wm-poster",
 			"style": {
 				"navigationBarTitleText": "海报编辑"

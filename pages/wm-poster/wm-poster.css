@@ -19,8 +19,6 @@
 		padding-left: 4px;
 		padding-right: 4px;
 	}
-	
-	
 	.word-btn {
 		/* #ifndef APP-NVUE */
 		display: flex;
@@ -111,6 +109,30 @@
 	.draw-cotrol-btn {
 		flex: 1;
 	}
+	.edit{
+		text-align: center;
+		display: inline-grid;
+		padding:10px;
+		grid-template-columns: repeat(4, 25%);
+		/* white-space:nowrap;	 */
+	}
+	.edit-item{
+		font-size: 40px;
+		background-color: #ccc;
+		border-radius: 2px;
+		margin: 2px;
+		padding: 4px;
+	}
+	.edit-item-Selected{
+		font-size: 40px;
+		background-color: #888;
+		border-radius: 2px;
+		margin: 2px;
+		padding: 4px;
+	}
+	.editName{
+		display: inline-block;
+	}
 	.scroll-view {
 		/* #ifndef APP-NVUE */
 		width: 100%;
@@ -162,11 +184,36 @@
 		margin-right:10px;
 		color: #8a8a8a;
 	}
+	.reset{
+		color:#007AFF;
+	}
 	.funcSize{
 		font-size:28px;
 		margin-right:3px;
 	}
-	
+	.scrollX{
+		padding:10rpx;
+	}
+	.showStickers{
+		/* display: inline; */
+		display: inline-grid;
+		/* width: 750rpx; */
+		height: 120px;/* 使用sroll-x需要传给sroll-view固定高度 */
+		white-space:nowrap;/* 关键：设置不换行 */
+		 text-align: center;
+	}
+	.stickerSelected{
+		border-radius: 5%;
+		border: #007AFF solid 2px;
+		margin:6px;
+		height:90%;
+		width: 25%;
+	}
+	.stickerImg{
+		margin:6px;
+		height:90%;
+		width: 25%;
+	}
 	.comBtn{
 		background-color: #ffffff;
 		margin:8px 0;

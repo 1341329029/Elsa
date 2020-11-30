@@ -508,7 +508,10 @@ export default {
 }
 .btn-original{
 	position: absolute;
-	right: 300upx;
+	/* right: 300upx; */
+	/* margin:0 auto; */
+	left: 50%;
+	transform: translateX(-50%);
 	top: 12upx;
 	font-size: 30upx;
 	line-height: 30upx;

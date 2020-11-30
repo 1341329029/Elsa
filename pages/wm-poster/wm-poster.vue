@@ -26,107 +26,98 @@
 		<view class='canvasBox'>
 			<canvas :style="{ width: canvasWidth + 'px', height: canvasHeight + 'px' }" canvas-id="firstCanvas"></canvas>
 		</view>
-		<uni-section title="编辑贴纸" type="line">
-			<view>
-				<view class='iconfont icon-arrowup func1'
-						hover-class="word-btn--hover1"
-						@tap="stickerUp">
-				</view>
-				<view class='iconfont icon-arrowdown func1'
-						hover-class="word-btn--hover1"
-						@tap="stickerDown">
-				</view>
-				<view class='iconfont icon-arrowleft func1' 
-					  :style='{color:colors.increase}'
-					  hover-class="word-btn--hover1"
-					  @tap="stickerLeft">
-				</view>
-				<view class='iconfont icon-arrowright func1' 
-					  :style='{color:colors.decrease}'
-					  hover-class="word-btn--hover1" 
-					  @tap='stickerRight'>
-				</view>
-				<view class='iconfont icon-rotate func1' 
-						hover-class="word-btn--hover1"
-						@tap="stickerRotate">
-				</view>
-				<view class='iconfont icon-enlarge func1' 
-					  :style='{color:colors.increase}'
-					  hover-class="word-btn--hover1"
-					  @tap="stickerEnlarge">
-				</view>
-				<view class='iconfont icon-narrow func1' 
-					  :style='{color:colors.decrease}'
-					  hover-class="word-btn--hover1" 
-					  @tap='stickerNarrow'>
-				</view>
-			</view>
-		</uni-section>
-<!-- 		<view class='showColors'>
-			<view v-for='(item,index) in stickerList' 
-				  :key = 'item'>
-				<image class='func'
-				:src='item.Src'>
-				</image>
-			</view> 
-		</view> -->
-		<!-- <view @touchstart="touchStart($event, 'plank')"
-			@touchmove="touchMove" 
-			@touchend="touchEnd" 
-			@touchcancel="touchCancel"  
-			class="plank">
-			<view class="frame" @touchstart="touchStart($event, 'frame')" @touchstart.stop.prevent="touchHandle" 
-				:style="{left: sticker.left + 'px', top: sticker.top + 'px', width: sticker.width + 'px', height: sticker.height + 'px'}">
-	
-				<view class="rect"></view>
-				<view @touchstart="touchStart($event, 'left')" 
-					  @touchstart.stop.prevent="touchHandle" 
-					  class="frame-left">
-				</view>
-				<view @touchstart="touchStart($event, 'right')" @touchstart.stop.prevent="touchHandle" class="frame-right"></view>
-				<view @touchstart="touchStart($event, 'top')" @touchstart.stop.prevent="touchHandle" class="frame-top"></view>
-				<view @touchstart="touchStart($event, 'bottom')" @touchstart.stop.prevent="touchHandle" class="frame-bottom"></view>
-				<view @touchstart="touchStart($event, 'left-top')" @touchstart.stop.prevent="touchHandle" class="frame-left-top"></view>
-				<view @touchstart="touchStart($event, 'left-bottom')" @touchstart.stop.prevent="touchHandle" class="frame-left-bottom"></view>
-				<view @touchstart="touchStart($event, 'right-top')" @touchstart.stop.prevent="touchHandle" class="frame-right-top"></view>
-				<view @touchstart="touchStart($event, 'right-bottom')" @touchstart.stop.prevent="touchHandle" class="frame-right-bottom"></view>
-			</view>
-		</view> -->
 		
-		<uni-section title="编辑文字" type="line">
-			<view>
-				<view class='iconfont icon-color func' 
-						:style="{color:fontColor}"
-						hover-class="word-btn--hover1"
-						@tap="showColors">
+		<view class = 'edit'>
+			<view 	v-for="(item,index) in editList">
+				<view :class="editIndex==index?item.iconClassSelected:item.iconClass"
+					hover-class="word-btn--hover1"
+					@tap="editTap(index)">
 				</view>
-				<view class='iconfont icon-FontIncrease funcSize' 
-					  :style='{color:colors.increase}'
-					  hover-class="word-btn--hover1"
-					  @tap="fontIncrease"></view>
-				<view class='iconfont icon-FontDecrease funcSize' 
-					  :style='{color:colors.decrease}'
-					  hover-class="word-btn--hover1" 
-					  @tap='fontDecrease'></view>
+				<text class="editName">{{item.name}}</text>
+			</view>				
+		</view>
+		
+		<view v-if = 'editIndex==2'>
+			<uni-section title="编辑贴纸" type="line">
+				<view>
+					<view class='iconfont icon-reset func1 reset'
+							hover-class="word-btn--hover1"
+							@tap="stickerReset">
+					</view>				
+					<view class='iconfont icon-uparrow func1'
+							hover-class="word-btn--hover1"
+							@tap="stickerUp">
+					</view>
+					<view class='iconfont icon-downarrow func1'
+							hover-class="word-btn--hover1"
+							@tap="stickerDown">
+					</view>
+					<view class='iconfont icon-leftarrow func1' 
+						  :style='{color:colors.increase}'
+						  hover-class="word-btn--hover1"
+						  @tap="stickerLeft">
+					</view>
+					<view class='iconfont icon-rightarrow func1' 
+						  :style='{color:colors.decrease}'
+						  hover-class="word-btn--hover1" 
+						  @tap='stickerRight'>
+					</view>
+					<view class='iconfont icon-rotate func1' 
+							hover-class="word-btn--hover1"
+							@tap="stickerRotate">
+					</view>
+					<view class='iconfont icon-enlarge func1' 
+						  :style='{color:colors.increase}'
+						  hover-class="word-btn--hover1"
+						  @tap="stickerEnlarge">
+					</view>
+					<view class='iconfont icon-narrow func1' 
+						  :style='{color:colors.decrease}'
+						  hover-class="word-btn--hover1" 
+						  @tap='stickerNarrow'>
+					</view>
+				</view>
+			</uni-section>
+			<view class='scrollX'>
+				<scroll-view class="showStickers" scroll-x="true">
+					<image v-for='(item,index) in stickerList' :class="index==stickerIndex?'stickerSelected':'stickerImg'"
+								  :key = 'item.id' :src="item.Src" mode='aspectFit' @tap='chooseSticker(index)'></image>
+				</scroll-view>
 			</view>
-		</uni-section>
-		<view v-if='colorDisplay' class='showColors'>
-			<view v-for='(item,index) in fontColorsList' 
-				  :key = 'item'>
-				<view v-if='item==fontColor' 
-					class='iconfont icon-squareSelected-s func'
-					:style ='{color:item}'>
-				</view>
-				<view v-else class='iconfont icon-square func'
-					:style ='{color:item}'
-					@tap="changeColor(item)">
-				</view>
-			</view> 
 		</view>
-
-		<view class="uni-form-item uni-column">
-		    <textarea class="textArea" auto-height='true' @input="onKeyInput" placeholder="绝无仅有的好旗舰" />
+		
+		<view v-if = 'editIndex==0'>
+			<uni-section title="编辑文字" type="line">
+				<view>
+					<view class='iconfont icon-color func' 
+							:style="{color:fontColor}"
+							hover-class="word-btn--hover1"
+							@tap="showColors">
+					</view>
+					<view class='iconfont icon-FontIncrease funcSize' 
+						  :style='{color:colors.increase}'
+						  hover-class="word-btn--hover1"
+						  @tap="fontIncrease"></view>
+					<view class='iconfont icon-FontDecrease funcSize' 
+						  :style='{color:colors.decrease}'
+						  hover-class="word-btn--hover1" 
+						  @tap='fontDecrease'></view>
+				</view>
+			</uni-section>
+			<view v-if='colorDisplay' class='showColors'>
+				<view v-for='(item,index) in fontColorsList' 
+					  :key = 'item'>
+					<view :class="item==fontColor?'iconfont icon-squareSelected-s func':'iconfont icon-square func'"
+						:style ='{color:item}'
+						@tap="changeColor(item)">
+					</view>
+				</view> 
+			</view>
+			<view class="uni-form-item uni-column">
+				<textarea class="textArea" auto-height='true' @input="onKeyInput" placeholder="绝无仅有的好旗舰" />
+			</view>
 		</view>
+		
 		<view class="comBtn"
 			  hover-class="word-btn--hover"
 			  :hover-start-time="20" 
@@ -145,9 +136,9 @@
 	export default {
 		data() {
 			return {
+				bgImgSrc:'',
 				showRight: false,
 				showLeft: false,
-				bgImgSrc:'',
 				shopsList:[ {name:'小米北京1店',id:1,QrSrc:'../../static/shopQr/QrImg1.png'},
 						{name:'小米上海2店',id:2,QrSrc:'../../static/shopQr/QrImg2.png'},
 						{name:'小米广州3店',id:3,QrSrc:'../../static/shopQr/QrImg3.png'},
@@ -155,8 +146,12 @@
 						{name:'小米杭州5店',id:5,QrSrc:'../../static/shopQr/QrImg5.jpg'}
 						],
 				shopIndex:0,
-				// screenWidth:375,
-				// fontSize:18*screenWidth/375,
+				editList:[{name:'文字',id:1,iconClass:'iconfont icon-edit-line edit-item',iconClassSelected:'iconfont icon-edit-fill edit-item-Selected'},
+						{name:'图片',id:2,iconClass:'iconfont icon-tupiancopy edit-item',iconClassSelected:'iconfont icon-tupian-filled edit-item-Selected'},		
+						{name:'素材',id:2,iconClass:'iconfont icon-magic-line edit-item',iconClassSelected:'iconfont icon-magic-fill edit-item-Selected'},		
+						{name:'图片',id:2,iconClass:'iconfont icon-price-tag--line edit-item',iconClassSelected:'iconfont icon-price-tag--fill edit-item-Selected'}		
+						],
+				editIndex:0,
 				posterText:'绝无仅有的好旗舰',
 				colors:{decrease:'#8a8a8a',increase:'#8a8a8a'},
 				fontColorsList:['#f58f98','#f15b6c','#ef5b9c','#d71345','#7a1723',
@@ -177,25 +172,19 @@
 					width: this.width,
 					height: this.height
 				},
-				stickerList:[ {id:1,Src:'../../static/phoneStickers/phone1.png'},
-						{id:2,Src:'../../static/phoneStickers/phone2.png'},
-						{id:3,Src:'../../static/phoneStickers/phone3.png'},
-						{id:4,Src:'../../static/phoneStickers/phone4.png'},
-						{id:5,Src:'../../static/phoneStickers/phone5.png'}
+				stickerList:[ {name:'Redmi Note 7',id:1,Src:'../../static/phoneStickers/phone1.png'},
+						{name:'Redmi Note 8',id:2,Src:'../../static/phoneStickers/phone2.png'},
+						{name:'Redmi Note 9',id:3,Src:'../../static/phoneStickers/phone3.png'},
+						{name:'xiaomi K30',id:4,Src:'../../static/phoneStickers/phone4.png'},
+						{name:'xiaomi K30 Pro',id:5,Src:'../../static/phoneStickers/phone5.png'}
 						],
+				stickerIndex:0,
 				direction:{
 					angle:0,
 					scale:1,
 					longitude:0,
 					latitude:0				
 				}
-/* 				startSticker: {
-					left: 0,
-					top: 0,
-					width: 0,
-					height: 0
-				},
-				touches:[] */
 			}},
 		components:{
 			"uni-drawer":uniDrawer,
@@ -238,56 +227,61 @@
 		/* 画布 */
 			createCanvas(fontSize,Direction) {
 				var that = this;
-				const canvasWidth = window.screen.availWidth - 8;
 				var ctx = uni.createCanvasContext('firstCanvas',this);
+				const canvasW = this.canvasWidth;
+				const canvasH = this.canvasHeight;
+				const bgH = this.bgHeight;
 				console.log(ctx);
 				ctx.setFillStyle("#ffffff");
-				ctx.fillRect(0,0,canvasWidth,canvasWidth*16/9);
-				var slogan = that.posterText
-				ctx.setFontSize(fontSize);
+				ctx.fillRect(0,0,canvasW,canvasH);//填充白色背景
+				/* 二维码位置参数 */
+				let QrW = Math.min(canvasW/4,canvasH*2/9);
+				let paddingW = canvasW/6-QrW/3;
+				let QrH = QrW,					
+					QrX = canvasW*5/6-QrW*2/3,
+					QrY = canvasH*5/6-QrW/2;
 				/* 绘制文字 */
+				let slogan = that.posterText
+				ctx.setFontSize(fontSize);
 				ctx.setFillStyle(that.fontColor);
-				var lineWidth = canvasWidth/30;//文字初始x坐标
-				var initHeight = canvasWidth*7/5 + fontSize*3/2;//文字初始y坐标
-				// ctx.fillText(slogan,lineWidth,initHeight);
+				let initTextX = paddingW, limitTextX = paddingW + canvasW/2;//文字初始x坐标,结束x坐标
+				let textMid = paddingW + canvasW/4;
+				let initTextY = canvasH*3/4, limitText = canvasH*11/12;//文字初始y坐标,结束y坐标
 				let lastSubStrIndex= 0; //每次开始截取的字符串的索引
-				const rightRange = (canvasWidth*17/30-lineWidth)%fontSize;
-				const rightLimit = (rightRange >= 0.5*fontSize)?(canvasWidth*17/30+lineWidth):(canvasWidth*17/30+lineWidth-fontSize);
-				const bottomRange = (canvasWidth*5/3)%(fontSize*3/2);
-				const bottomLimit = (bottomRange >= 0.5*(fontSize*3/2))?(canvasWidth*5/3):(canvasWidth*5/3 - fontSize);
 				for(let i=0;i<slogan.length;i++){ 
-					if(initHeight > bottomLimit) break;
-					if(lineWidth >= rightLimit){ 
+					if(initTextY > limitText) break;
+					if(initTextX >= limitTextX){ 
 						ctx.setTextAlign('center');
-						ctx.fillText(slogan.substring(lastSubStrIndex,i),canvasWidth/60+rightLimit/2,initHeight);//绘制截取部分
-						initHeight += fontSize*3/2;
-						lineWidth= fontSize*3/2 + ctx.measureText(slogan[i]).width;
+						ctx.setTextBaseline('middle');
+						ctx.fillText(slogan.substring(lastSubStrIndex,i),textMid,initTextY);//绘制截取部分
+						initTextY += fontSize*3/2;
+						initTextX = paddingW;
 						lastSubStrIndex=i;
 					} 
 					else{
-						lineWidth += ctx.measureText(slogan[i]).width; 
+						initTextX += ctx.measureText(slogan[i]).width; 
 					}
 					if(i==slogan.length-1){//绘制剩余部分
 						ctx.setTextAlign('center');
-						ctx.fillText(slogan.substring(lastSubStrIndex,i+1),canvasWidth/60+rightLimit/2,initHeight);
+						ctx.setTextBaseline('middle');
+						ctx.fillText(slogan.substring(lastSubStrIndex,i+1),textMid,initTextY);
 					}
 				}
-				var QrX = canvasWidth*19/30, QrY = canvasWidth*25/18 , QrW = canvasWidth/3, QrH = canvasWidth/3;
+				/* 绘制二维码 */
 				var QrImg = new Image();
 				QrImg.src = that.shopsList[that.shopIndex].QrSrc;
 				QrImg.onload = function(){//绘制二维码
 					ctx.drawImage(QrImg.src,QrX,QrY,QrW,QrH);
 				};
-				
+				/* 绘制贴纸和背景图 */
 				var phone = new Image();
-				phone.src = '../../static/phoneStickers/phone1.png';
+				phone.src = that.stickerList[that.stickerIndex].Src;
 				var bgImg = new Image();
 				bgImg.src = that.bgImgSrc;
 				bgImg.onload = function(){//绘制背景图
-					ctx.drawImage(bgImg.src,0,0,canvasWidth,canvasWidth*4/3);//绘制图
-					// ctx.translate(100,100)
+					ctx.drawImage(bgImg.src,0,0,canvasW,bgH);//绘制图
 					ctx.rotate(Direction.angle);
-					ctx.drawImage(phone.src,Direction.longitude,Direction.latitude,200*Direction.scale,400*Direction.scale);
+					ctx.drawImage(phone.src,Direction.longitude,Direction.latitude,200*Direction.scale,400*Direction.scale);//绘制贴纸
 					Direction.scale
 /* 					ctx.beginPath();
 					ctx.setLineDash([40, 20]);//设置虚线间隔
@@ -300,7 +294,20 @@
 				setTimeout(function() {
 					ctx.draw()}, 200);
 			},
+			/* 功能选择 */
+			editTap(index){
+				this.editIndex = index;
+			},
 			/* 操作贴纸 */
+			stickerReset(){
+				this.direction = {
+					angle:0,
+					scale:1,
+					longitude:0,
+					latitude:0	
+				};
+				this.createCanvas(this.fontSize,this.direction);
+			},
 			stickerUp(){
 				this.direction.latitude += 50;
 				this.createCanvas(this.fontSize,this.direction);
@@ -329,97 +336,12 @@
 				this.direction.scale = this.direction.scale - 0.2;
 				this.createCanvas(this.fontSize,this.direction);
 			},
-			/* touchHandle() {},
-			touchStart(ev, type) {
-				console.log(ev)
-				// this.stopTime();
-				// this.mask.show = false;
-				if (this.touches.length == 0) {
-					this.type = type;
-					this.startSticker.left = this.sticker.left;
-					this.startSticker.top = this.sticker.top;
-					this.startSticker.width = this.sticker.width;
-					this.startSticker.height = this.sticker.height;
-					// this.start.image.left = this.image.left;
-					// this.start.image.top = this.image.top;
-					// this.start.image.width = this.image.width;
-					// this.start.image.height = this.image.height;
-				}
-				var touches = ev.changedTouches;
-				for(var i = 0; i < touches.length; i++) {
-					var touch = touches[i];
-					// this.touches[touch.identifier] = touch;
-					this.touches.push(touch);
-				}
+			/* 选择贴纸 */
+			chooseSticker(index){
+				this.stickerIndex = index;
+				console.log(this.stickerIndex);
+				this.createCanvas(this.fontSize,this.direction);
 			},
-			touchMove(ev) {
-				console.log(ev)
-				// this.stopTime();
-				ev.preventDefault();//阻止触摸的默认行为
-				var touches = ev.touches;
-				if (this.touches.length == 1) {
-					if (this.type == "plank" || this.type == "frame" || this.fixed) {
-						// this.moveImage(this.touches[0], touches[0]);
-					} else {
-						this.scaleFrame(this.touches[0], touches[0], this.type);
-					}
-				} else if (this.touches.length == 2 && touches.length == 2) {
-					var ta = this.touches[0];
-					var tb = this.touches[1];
-					var tc = touches[0];
-					var td = touches[1];
-					if (ta.identifier != tc.identifier) {
-						var temp = tc;
-						tc = td;
-						td = temp;
-					}
-					this.scaleImage(ta, tb, tc, td);
-				}
-			},
-			touchEnd(ev) {
-				this.type = "";
-				this.touches = [];
-				// this.startTime();
-			},
-			touchCancel(ev) {
-				this.type = "";
-				this.touches = [];
-				// this.startTime();
-			},
-			
-			scaleFrame(ta, tb, type) {
-				var ax = tb.clientX - ta.clientX;
-				var ay = tb.clientY - ta.clientY;
-				var x1 = this.startSticker.left;
-				var y1 = this.startSticker.top;
-				var x2 = this.startSticker.left + this.startSticker.width;
-				var y2 = this.startSticker.top + this.startSticker.height;
-				if (type == "left") {
-					x1 += ax;
-				} else if (type == "right") {
-					x2 += ax;
-				} else if (type == "top") {
-					y1 += ay;
-				} else if (type == "bottom") {
-					y2 += ay;
-				} else if (type == "left-top") {
-					x1 += ax;
-					y1 += ay;
-				} else if (type == "left-bottom") {
-					x1 += ax;
-					y2 += ay;
-				} else if (type == "right-top") {
-					x2 += ax;
-					y1 += ay;
-				} else if (type == "right-bottom") {
-					x2 += ax;
-					y2 += ay;
-				}
-				this.sticker.left = x1;
-				this.sticker.top = y1;
-				this.sticker.width = x2 - x1;
-				this.sticker.height = y2 - y1;
-			}, */
 			/* 生成海报 */
 			posterComplete(){//无法获取到画布，点击事件超时
 				uni.canvasToTempFilePath({
@@ -518,10 +440,15 @@
 			}
 		},
 		onLoad: function(options){
-			console.log(options.bgImg)
+			let bg = new Image()
+			bg.src = options.bgImg;
 			this.bgImgSrc = options.bgImg;
+			this.screenWidth = window.screen.availWidth;
 			this.canvasWidth = window.screen.availWidth-8;
-			this.canvasHeight = (window.screen.availWidth-8)*16/9;
+			this.bgHeight = bg.height * this.canvasWidth / bg.width;
+			this.canvasHeight = this.bgHeight *3/2;
+			
+			console.log(this.canvasWidth,this.bgHeight,this.canvasHeight)
 			this.fontSize = 18*window.screen.availWidth/375;
 			this.fontScale = window.screen.availWidth/375
 		},
