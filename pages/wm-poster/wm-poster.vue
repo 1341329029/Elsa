@@ -1,166 +1,112 @@
 <template>
 	<view>
-		<view>	
-			<uni-drawer ref="showLeft" mode="left" :width="320" @change="change($event,'showLeft')">
-				<view class="close" v-for="(item,index) in shopsList" :key='item.id'>
-						<view class="word-btn1" 
-							hover-class="word-btn--hover1" 
-							:hover-start-time="20" 
-							:hover-stay-time="70" 
-							@tap="closeDrawer(index,'showLeft')">
-							<text class="word-btn-white">{{item.name}}</text>
-						</view>
+		<u-navbar title="" >
+			<view class="navbar-right" slot="right">
+				<view class="message-box right-item">
+					<button size="mini" class='sub-button'> 生成海报 </button>
 				</view>
-			</uni-drawer>
-			<uni-section title="选择二维码" type="line">
-				<view class="word-btn draw-cotrol-btn" 
-					hover-class="word-btn--hover" 
-					:hover-start-time="20" 
-					:hover-stay-time="70" 
-					@tap="showDrawer('showLeft')">
-					<text class="word-btn-white">{{shopsList[shopIndex].name}}</text>
-				</view>
-			</uni-section>
-		</view>
+			</view>
+		</u-navbar>
 		
 		<view class='canvasBox'>
 			<canvas :style="{ width: canvasWidth + 'px', height: canvasHeight + 'px' }" canvas-id="firstCanvas"></canvas>
-		</view>
-		
-		<view class = 'edit'>
-			<view 	v-for="(item,index) in editList">
-				<view :class="editIndex==index?item.iconClassSelected:item.iconClass"
-					hover-class="word-btn--hover1"
-					@tap="editTap(index)">
+		</view >
+		<view class='test'>这是占位测试</view>
+	<!--底部工具栏-->
+		<view class="box-2">
+			<view v-if='Number(texts)!=0' class='text-history'>
+				<text v-for='(item,index) of texts' class='text' @click='modify(item,index)'>
+					{{item.slice(0,2)}}..
+					<text class='iconfont icon-multiply' :data-index='index' @click.stop="deleteText"></text>
+				</text>
+			</view>
+			<view class='func-area'>
+				<view class='more iconfont icon-add funcbar' @click="showMore"></view>
+				<view class="input-area funcbar">
+					<textarea auto-height="true" class="u-search-text" :value="inputValue" placeholder="添加文字" @input="onKeyInput"/>
 				</view>
-				<text class="editName">{{item.name}}</text>
-			</view>				
-		</view>
-		
-		<view v-if = 'editIndex==2'>
-			<uni-section title="编辑贴纸" type="line">
 				<view>
-					<view class='iconfont icon-reset func1 reset'
-							hover-class="word-btn--hover1"
-							@tap="stickerReset">
-					</view>				
-					<view class='iconfont icon-uparrow func1'
-							hover-class="word-btn--hover1"
-							@tap="stickerUp">
-					</view>
-					<view class='iconfont icon-downarrow func1'
-							hover-class="word-btn--hover1"
-							@tap="stickerDown">
-					</view>
-					<view class='iconfont icon-leftarrow func1' 
-						  :style='{color:colors.increase}'
-						  hover-class="word-btn--hover1"
-						  @tap="stickerLeft">
-					</view>
-					<view class='iconfont icon-rightarrow func1' 
-						  :style='{color:colors.decrease}'
-						  hover-class="word-btn--hover1" 
-						  @tap='stickerRight'>
-					</view>
-					<view class='iconfont icon-rotate func1' 
-							hover-class="word-btn--hover1"
-							@tap="stickerRotate">
-					</view>
-					<view class='iconfont icon-enlarge func1' 
-						  :style='{color:colors.increase}'
-						  hover-class="word-btn--hover1"
-						  @tap="stickerEnlarge">
-					</view>
-					<view class='iconfont icon-narrow func1' 
-						  :style='{color:colors.decrease}'
-						  hover-class="word-btn--hover1" 
-						  @tap='stickerNarrow'>
-					</view>
+					<button v-if='modifyIndex == -1' size="mini" class='add-button' @click="confirm">添加</button>
+					<button v-else size="mini" class='modify-button' @click="modifyConfirm">修改</button>
 				</view>
-			</uni-section>
-			<view class='scrollX'>
-				<scroll-view class="showStickers" scroll-x="true">
-					<image v-for='(item,index) in stickerList' :class="index==stickerIndex?'stickerSelected':'stickerImg'"
-								  :key = 'item.id' :src="item.Src" mode='aspectFit' @tap='chooseSticker(index)'></image>
-				</scroll-view>
 			</view>
-		</view>
-		
-		<view v-if = 'editIndex==0'>
-			<uni-section title="编辑文字" type="line">
-				<view>
-					<view class='iconfont icon-color func' 
-							:style="{color:fontColor}"
-							hover-class="word-btn--hover1"
-							@tap="showColors">
+			<swiper v-if="isMoreVisible" class='detail-func-area' 
+				:current="editIndex" 
+				indicator-dots='true' 
+				indicator-color='rgb(160,207,255,0.3)' 
+				indicator-active-color='rgb(43,133,228,0.7)'>
+				<swiper-item item-id="0" class='Qr-area'>
+					<view v-for="(item,index) in editList" class = 'detail-func'>
+						<view :class="item.isSelected?item.iconClassSelected:item.iconClass"
+						hover-class="edit-item"
+							@click="editTap(index,item.isSelected)">
+						</view>
+						<text class="edit-name">{{item.name}}</text>
+					</view>	
+				</swiper-item>
+				<swiper-item item-id='1'>
+					<view class='iconfont icon-multiply' @click="returnBtn"></view>
+					icons
+				</swiper-item>
+				
+				<swiper-item item-id='2' class='flex-col'>
+					<view class='iconfont icon-multiply' @click="returnBtn"></view>
+					bold
+				</swiper-item>
+				<swiper-item item-id='3' class='showColors'>
+					<view class='iconfont icon-multiply' @click="returnBtn"></view>
+					<view v-for='(item,index) in fontColorsList' 
+						  :key = 'item'>
+						<text :class="item==fontColor?'iconfont icon-squareSelected-s func':'iconfont icon-square func'"
+							:style ='{color:item}'
+							@click="changeColor(item)">
+						</text>
 					</view>
-					<view class='iconfont icon-FontIncrease funcSize' 
-						  :style='{color:colors.increase}'
-						  hover-class="word-btn--hover1"
-						  @tap="fontIncrease"></view>
-					<view class='iconfont icon-FontDecrease funcSize' 
-						  :style='{color:colors.decrease}'
-						  hover-class="word-btn--hover1" 
-						  @tap='fontDecrease'></view>
-				</view>
-			</uni-section>
-			<view v-if='colorDisplay' class='showColors'>
-				<view v-for='(item,index) in fontColorsList' 
-					  :key = 'item'>
-					<view :class="item==fontColor?'iconfont icon-squareSelected-s func':'iconfont icon-square func'"
-						:style ='{color:item}'
-						@tap="changeColor(item)">
-					</view>
-				</view> 
-			</view>
-			<view class="uni-form-item uni-column">
-				<textarea class="textArea" auto-height='true' @input="onKeyInput" placeholder="绝无仅有的好旗舰" />
-			</view>
-		</view>
-		
-		<view class="comBtn"
-			  hover-class="word-btn--hover"
-			  :hover-start-time="20" 
-			  :hover-stay-time="70" 
-			  @tap="posterComplete">生成海报
-		</view>
-		<view v-show='poster'>
-			<image src='this.posterSrc'></image>
+				</swiper-item>
+				<swiper-item item-id='4' class='flex-col'>
+					<view class='iconfont icon-multiply' @click="returnBtn"></view>
+					size
+				</swiper-item>
+			</swiper>
 		</view>
 	</view>
+	
 </template>
 
 <script>
-	import uniDrawer from "@/components/uni-drawer/uni-drawer"
 	import UniSection from "@/components/uni-section/uni-section.vue"
+	import colors from "@/common/fontColor.data.js";
+	const app = getApp()
+
 	export default {
 		data() {
 			return {
-				bgImgSrc:'',
-				showRight: false,
-				showLeft: false,
-				shopsList:[ {name:'小米北京1店',id:1,QrSrc:'../../static/shopQr/QrImg1.png'},
-						{name:'小米上海2店',id:2,QrSrc:'../../static/shopQr/QrImg2.png'},
-						{name:'小米广州3店',id:3,QrSrc:'../../static/shopQr/QrImg3.png'},
-						{name:'小米深圳4店',id:4,QrSrc:'../../static/shopQr/QrImg4.jpg'},
-						{name:'小米杭州5店',id:5,QrSrc:'../../static/shopQr/QrImg5.jpg'}
-						],
-				shopIndex:0,
-				editList:[{name:'文字',id:1,iconClass:'iconfont icon-edit-line edit-item',iconClassSelected:'iconfont icon-edit-fill edit-item-Selected'},
-						{name:'图片',id:2,iconClass:'iconfont icon-tupiancopy edit-item',iconClassSelected:'iconfont icon-tupian-filled edit-item-Selected'},		
-						{name:'素材',id:2,iconClass:'iconfont icon-magic-line edit-item',iconClassSelected:'iconfont icon-magic-fill edit-item-Selected'},		
-						{name:'图片',id:2,iconClass:'iconfont icon-price-tag--line edit-item',iconClassSelected:'iconfont icon-price-tag--fill edit-item-Selected'}		
+				/* 传入参数默认值，方便调试 */
+				fontColorsList:colors,
+				posterBg: {
+					name: 'NOTE 9',
+					path: '../../static/bgImg/bgImg1.jpg',
+					width: 960,
+					height: 1422
+				},
+				/* 传入参数默认值，方便调试 */
+				good: {
+					name: "小米10",
+					key: "小米10",
+					icon: "../../static/goods/xiaomiPhone/xiaomi10.jpg",
+					cat: 10
+				  },
+				Qr: "../../static/QrImg1.png",
+				editList:[{name:'二维码',id:1,iconClass:'iconfont icon-erweima edit-item',iconClassSelected:'iconfont icon-erweima edit-item-Selected',isSelected:false},
+						{name:'图标',id:2,iconClass:'iconfont icon-magic-line edit-item',iconClassSelected:'iconfont icon-magic-line edit-item-Selected',isSelected:false},		
+						{name:'文字',id:3,iconClass:'iconfont icon-FontIncrease edit-item',iconClassSelected:'iconfont icon-FontIncrease edit-item-Selected',isSelected:false},		
+						{name:'颜色',id:4,iconClass:'iconfont icon-color edit-item',iconClassSelected:'iconfont icon-color edit-item-Selected',isSelected:false},
+						{name:'更多',id:5,iconClass:'iconfont icon-edit-line edit-item',iconClassSelected:'iconfont icon-edit-line edit-item-Selected',isSelected:false}
 						],
 				editIndex:0,
 				posterText:'绝无仅有的好旗舰',
 				colors:{decrease:'#8a8a8a',increase:'#8a8a8a'},
-				fontColorsList:['#f58f98','#f15b6c','#ef5b9c','#d71345','#7a1723',
-							'#faa755','#f15a22','#c85d44','#b7704f','#5f3c23',
-							'#ffe600','#ffc20e','#fcaf17','#dea32c','#c37e00',
-							'#abc88b','#bed742','#7fb80e','#007947','#005831',
-							'#90d7ec','#33a3dc','#009ad6','#426ab3','#102b6a',
-							'#9b95c9','#694d9f','#77787b','#464547','#000000'
-							],
+				
 				colorDisplay:false,
 				fontColor:'#000000',
 				blob:true,
@@ -172,66 +118,32 @@
 					width: this.width,
 					height: this.height
 				},
-				stickerList:[ {name:'Redmi Note 7',id:1,Src:'../../static/phoneStickers/phone1.png'},
-						{name:'Redmi Note 8',id:2,Src:'../../static/phoneStickers/phone2.png'},
-						{name:'Redmi Note 9',id:3,Src:'../../static/phoneStickers/phone3.png'},
-						{name:'xiaomi K30',id:4,Src:'../../static/phoneStickers/phone4.png'},
-						{name:'xiaomi K30 Pro',id:5,Src:'../../static/phoneStickers/phone5.png'}
-						],
-				stickerIndex:0,
 				direction:{
 					angle:0,
 					scale:1,
 					longitude:0,
 					latitude:0				
-				}
+				},
+				isMoreVisible: false,
+				// isColorVisible: false,
+				// isQrVisible: false,
+				modifyIndex: -1,
+				inputValue:'',
+				texts: []
 			}},
 		components:{
-			"uni-drawer":uniDrawer,
 			"uni-section":UniSection
 		},
 		methods: {
-		/* 抽屉 选择二维码*/
-			confirm() {},
-			// 打开窗口
-			showDrawer(e) {
-				this.$refs[e].open()
-			},
-			// 关闭窗口/选中门店
-			closeDrawer(index,e) {
-				this.shopIndex = index;
-				this.$refs[e].close();
-				console.log(index,e,this.shopIndex);
-				this.createCanvas(this.fontSize,this.direction);
-			},
-			// 抽屉状态发生变化触发
-			change(e, type) {
-				console.log((type === 'showLeft' ? '左窗口' : '右窗口') + (e ? '打开' : '关闭'));
-				this[type] = e;
-			},
-			onNavigationBarButtonTap(e) {
-				if (this.showLeft) {
-					this.$refs.showLeft.close()
-				} else {
-					this.$refs.showLeft.open()
-				}
-			},
-			//app端拦截返回事件 ，仅app端生效
-			onBackPress() {
-				if (this.showRight || this.showLeft) {
-					this.$refs.showLeft.close()
-					this.$refs.showRight.close()
-					return true
-				}
-			},
 		/* 画布 */
 			createCanvas(fontSize,Direction) {
 				var that = this;
-				var ctx = uni.createCanvasContext('firstCanvas',this);
+				const ctx = uni.createCanvasContext('firstCanvas');
 				const canvasW = this.canvasWidth;
 				const canvasH = this.canvasHeight;
 				const bgH = this.bgHeight;
-				console.log(ctx);
+				
+				console.log(canvasW,bgH,ctx)
 				ctx.setFillStyle("#ffffff");
 				ctx.fillRect(0,0,canvasW,canvasH);//填充白色背景
 				/* 二维码位置参数 */
@@ -240,11 +152,62 @@
 				let QrH = QrW,					
 					QrX = canvasW*5/6-QrW*2/3,
 					QrY = canvasH*5/6-QrW/2;
-				/* 绘制文字 */
-				let slogan = that.posterText
-				ctx.setFontSize(fontSize);
-				ctx.setFillStyle(that.fontColor);
-				let initTextX = paddingW, limitTextX = paddingW + canvasW/2;//文字初始x坐标,结束x坐标
+				// /* 绘制文字 */
+				// let slogan = that.posterText
+				// ctx.setFontSize(fontSize);
+				// ctx.setFillStyle(that.fontColor);
+				// let initTextX = paddingW, limitTextX = paddingW + canvasW/2;//文字初始x坐标,结束x坐标
+				// let textMid = paddingW + canvasW/4;
+				// let initTextY = canvasH*3/4, limitText = canvasH*11/12;//文字初始y坐标,结束y坐标
+				// let lastSubStrIndex= 0; //每次开始截取的字符串的索引
+				// for(let i=0;i<slogan.length;i++){ 
+				// 	if(initTextY > limitText) break;
+				// 	if(initTextX >= limitTextX){ 
+				// 		ctx.setTextAlign('center');
+				// 		ctx.setTextBaseline('middle');
+				// 		ctx.fillText(slogan.substring(lastSubStrIndex,i),textMid,initTextY);//绘制截取部分
+				// 		initTextY += fontSize*3/2;
+				// 		initTextX = paddingW;
+				// 		lastSubStrIndex=i;
+				// 	} 
+				// 	else{
+				// 		initTextX += ctx.measureText(slogan[i]).width; 
+				// 	}
+				// 	if(i==slogan.length-1){//绘制剩余部分
+				// 		ctx.setTextAlign('center');
+				// 		ctx.setTextBaseline('middle');
+				// 		ctx.fillText(slogan.substring(lastSubStrIndex,i+1),textMid,initTextY);
+				// 	}
+				// }
+				/* 绘制二维码 */
+				if(this.editList[0].isSelected){
+					var QrImg = new Image();
+					QrImg.src = that.Qr
+					QrImg.onload = function(){//绘制二维码
+						ctx.drawImage(QrImg.src,QrX,QrY,QrW,QrH);
+					};
+				}
+
+				/* 绘制背景图 */
+				var bgImg = new Image();
+				bgImg.src = that.posterBg.path;
+				bgImg.onload = function(){//绘制背景图
+					ctx.drawImage(bgImg.src,0,0,canvasW,bgH);//绘制图
+/* 					ctx.beginPath();
+					ctx.setLineDash([40, 20]);//设置虚线间隔
+					ctx.setLineWidth(3);//设置虚线宽度
+					ctx.setStrokeStyle("#ffffff")//设置虚线颜色
+					ctx.setLineCap('round');//设置虚线端点样式
+					ctx.rect(0,0,200,400);
+					ctx.stroke(); */
+				};
+				setTimeout(function() {
+					ctx.draw()}, 200);
+			},
+			addTextToCanvas(){
+				ctx.setFontSize('18px');
+				// ctx.setFillStyle(that.fontColor);
+				let initTextX = 10
 				let textMid = paddingW + canvasW/4;
 				let initTextY = canvasH*3/4, limitText = canvasH*11/12;//文字初始y坐标,结束y坐标
 				let lastSubStrIndex= 0; //每次开始截取的字符串的索引
@@ -267,80 +230,59 @@
 						ctx.fillText(slogan.substring(lastSubStrIndex,i+1),textMid,initTextY);
 					}
 				}
-				/* 绘制二维码 */
-				var QrImg = new Image();
-				QrImg.src = that.shopsList[that.shopIndex].QrSrc;
-				QrImg.onload = function(){//绘制二维码
-					ctx.drawImage(QrImg.src,QrX,QrY,QrW,QrH);
-				};
-				/* 绘制贴纸和背景图 */
-				var phone = new Image();
-				phone.src = that.stickerList[that.stickerIndex].Src;
-				var bgImg = new Image();
-				bgImg.src = that.bgImgSrc;
-				bgImg.onload = function(){//绘制背景图
-					ctx.drawImage(bgImg.src,0,0,canvasW,bgH);//绘制图
-					ctx.rotate(Direction.angle);
-					ctx.drawImage(phone.src,Direction.longitude,Direction.latitude,200*Direction.scale,400*Direction.scale);//绘制贴纸
-					Direction.scale
-/* 					ctx.beginPath();
-					ctx.setLineDash([40, 20]);//设置虚线间隔
-					ctx.setLineWidth(3);//设置虚线宽度
-					ctx.setStrokeStyle("#ffffff")//设置虚线颜色
-					ctx.setLineCap('round');//设置虚线端点样式
-					ctx.rect(0,0,200,400);
-					ctx.stroke(); */
-				};
-				setTimeout(function() {
-					ctx.draw()}, 200);
 			},
 			/* 功能选择 */
+
 			editTap(index){
 				this.editIndex = index;
+				switch(index){
+					case 0:{
+						this.editList[0].isSelected = !this.editList[0].isSelected
+						this.createCanvas();
+						break
+					}
+					case 1:{
+						this.isIcon()
+						break
+					}
+					case 2:{
+						break
+					}
+					case 3:{
+						this.isBold()
+						break
+					}
+					case 4:{
+						this.isSize()
+						break
+					}
+				}
 			},
-			/* 操作贴纸 */
-			stickerReset(){
-				this.direction = {
-					angle:0,
-					scale:1,
-					longitude:0,
-					latitude:0	
-				};
-				this.createCanvas(this.fontSize,this.direction);
+			confirm() {
+				this.texts.push(this.inputValue)
+				this.inputValue = ''
+				this.addTextToCanvas()
 			},
-			stickerUp(){
-				this.direction.latitude += 50;
-				this.createCanvas(this.fontSize,this.direction);
+			onKeyInput(event) {				
+			    this.inputValue = event.target.value
 			},
-			stickerDown(){
-				this.direction.latitude = this.direction.latitude - 50;
-				this.createCanvas(this.fontSize,this.direction);
+			modify(item,index) {
+				this.inputValue = item
+				this.modifyIndex = index
 			},
-			stickerLeft(){
-				this.direction.longitude = this.direction.longitude - 50;
-				this.createCanvas(this.fontSize,this.direction);
+			modifyConfirm() {
+				this.texts[this.modifyIndex] = this.inputValue
+				this.modifyIndex = -1
+				this.inputValue = ''
 			},
-			stickerRight(){
-				this.direction.longitude += 50;
-				this.createCanvas(this.fontSize,this.direction);
+			deleteText(e){
+				this.texts.splice(e.currentTarget.dataset.index,1)
+				this.modifyIndex = -1
+				this.inputValue = ''
 			},
-			stickerRotate(){
-				this.direction.angle += 15 * Math.PI / 180;
-				this.createCanvas(this.fontSize,this.direction);
-			},
-			stickerEnlarge(){
-				this.direction.scale += 0.2;
-				this.createCanvas(this.fontSize,this.direction);
-			},
-			stickerNarrow(){
-				this.direction.scale = this.direction.scale - 0.2;
-				this.createCanvas(this.fontSize,this.direction);
-			},
-			/* 选择贴纸 */
-			chooseSticker(index){
-				this.stickerIndex = index;
-				console.log(this.stickerIndex);
-				this.createCanvas(this.fontSize,this.direction);
+			returnBtn(){
+				this.editIndex = 0
+				console.log(this.editIndex)
 			},
 			/* 生成海报 */
 			posterComplete(){//无法获取到画布，点击事件超时
@@ -387,12 +329,15 @@
 			canvasIdErrorCallback(e) {
 			    console.error(e.detail.errMsg);
 			},
+			showMore(){
+				this.isMoreVisible = !this.isMoreVisible
+			},
 		/* 文字输入 */
-			onKeyInput(e){
-		        this.posterText = e.target.value;
-				this.createCanvas(this.fontSize*this.fontScale,this.direction);
-				console.log(e);
-		    },
+			// onKeyInput(e){
+		 //        this.posterText = e.target.value;
+			// 	this.createCanvas(this.fontSize*this.fontScale,this.direction);
+			// 	console.log(e);
+		 //    },
 		/* 字体功能 */
 			showColors(){//显示隐藏颜色选择区域
 				this.colorDisplay = !this.colorDisplay;
@@ -440,15 +385,21 @@
 			}
 		},
 		onLoad: function(options){
-			let bg = new Image()
-			bg.src = options.bgImg;
-			this.bgImgSrc = options.bgImg;
-			this.screenWidth = window.screen.availWidth;
-			this.canvasWidth = window.screen.availWidth-8;
-			this.bgHeight = bg.height * this.canvasWidth / bg.width;
-			this.canvasHeight = this.bgHeight *3/2;
+			console.log(options)
+			this.posterBg = JSON.parse(options.posterBg)
+			let bgImg = new Image()
+			bgImg.src = this.posterBg.path
+			this.posterBg.width = bgImg.width
+			this.posterBg.height = bgImg.height
 			
-			console.log(this.canvasWidth,this.bgHeight,this.canvasHeight)
+			this.canvasWidth = app.globalData.Info.screenWidth - 8 
+			let scale = this.canvasWidth / this.posterBg.width
+			this.bgHeight = this.posterBg.height *scale
+			this.canvasHeight = this.bgHeight + this.canvasWidth / 2;
+			console.log(this.canvasWidth,this.canvasHeight)
+			
+			this.good = JSON.parse(options.good)
+			
 			this.fontSize = 18*window.screen.availWidth/375;
 			this.fontScale = window.screen.availWidth/375
 		},
@@ -461,95 +412,6 @@
 </script>
 <style>
 	@import url("./wm-poster.css");
-/* 	.plank {
-		position: absolute;
-		left: 0upx;
-		right: 0upx;
-		top: 0upx;
-		bottom: 0upx;
-	}
-	.image {
-		position: absolute;
-	}
-	.frame {
-		position: absolute;
-	}
-	.canvas {
-		position: absolute;
-		display: block;
-		left: 0px;
-		top: 0px;
-	}
-	.rect {
-		position: absolute;
-		left: -2px;
-		top: -2px;
-		width: 100%;
-		height: 100%;
-		border: 2px solid white;
-	}
-	.frame-left {
-		position: absolute;
-		height: 100%;
-		width: 8px;
-		left: -4px;
-		top: 0;
-	}
-	.frame-right {
-		position: absolute;
-		height: 100%;
-		width: 8px;
-		right: -4px;
-		top: 0;
-	}
-	.frame-top {
-		position: absolute;
-		width: 100%;
-		height: 8px;
-		top: -4px;
-		left: 0;
-	}
-	.frame-bottom {
-		position: absolute;
-		width: 100%;
-		height: 8px;
-		bottom: -4px;
-		left: 0;
-	}
-	.frame-left-top {
-		position: absolute;
-		width: 20px;
-		height: 20px;
-		left: -6px;
-		top: -6px;
-		border-left: 4px solid #007AFF;
-		border-top: 4px solid #007AFF;
-	}
-	.frame-left-bottom {
-		position: absolute;
-		width: 20px;
-		height: 20px;
-		left: -6px;
-		bottom: -6px;
-		border-left: 4px solid #007AFF;
-		border-bottom: 4px solid #007AFF;
-	}
-	.frame-right-top {
-		position: absolute;
-		width: 20px;
-		height: 20px;
-		right: -6px;
-		top: -6px;
-		border-right: 4px solid #007AFF;
-		border-top: 4px solid #007AFF;
-	}
-	.frame-right-bottom {
-		position: absolute;
-		width: 20px;
-		height: 20px;
-		right: -6px;
-		bottom: -6px;
-		border-right: 4px solid #007AFF;
-		border-bottom: 4px solid #007AFF;
-	} */
+	@import "../../lib/global.scss";
+	
 </style>

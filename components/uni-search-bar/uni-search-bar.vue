@@ -126,6 +126,7 @@
 		padding: $uni-spacing-col-base;
 		background-color: $uni-bg-color;
 		// background-color: #fff;
+		// align-items: center;
 	}
 
 	.uni-searchbar__box {

@@ -18,22 +18,63 @@
 		height: auto;
 		padding-left: 4px;
 		padding-right: 4px;
+		overflow: scroll;
+	}
+	.test{
+		font-size: 300px;
+	}
+	.navbar-right {
+		margin-right: 24rpx;
+		display: flex;
+	}
+	.right-item {
+		margin: 0 12rpx;
+		position: relative;
+		color: #ffffff;
+		display: flex;
+	}
+	.button {
+		position: relative;
+		height: 40px;
+	    background-color: #2979ff;
+	    border: none;
+	    box-shadow: 0 1px 5px #2979ff;
+	    outline: none;
+	    cursor: pointer;
+		border-radius: 20px;
+		text-align: center;
+		color: #fff;
+	}
+	button:active {
+		transform: scale(0.8);
+	}
+	.text-history {
+		padding: 10rpx 0;
+		line-height: 50rpx;
+	}
+	.text {
+		background-color: #2979ff;
+		padding:4rpx 10rpx;
+		border-radius: 50rpx;
+		margin:6rpx;
+		color: #fff;
+		white-space: nowrap;
 	}
 	.word-btn {
 		/* #ifndef APP-NVUE */
 		display: flex;
 		/* #endif */
+		background-color: #2979ff;
+		border-radius: 50%;
 		flex-direction: row;
 		align-items: center;
 		justify-content: center;
-		border-radius: 6px;
-		height: 36px;
-		/* margin: 15px; */
-		background-color: #eeeeee;
+		box-shadow: 0 1px 5px #2979ff;
 	}
 	
 	.word-btn--hover {
-		background-color: #bbbbbb;
+		background-color: #a0cfff;
+		transform: scale(0.8);
 	}
 	
 	.word-btn1 {
@@ -117,21 +158,23 @@
 		/* white-space:nowrap;	 */
 	}
 	.edit-item{
-		font-size: 40px;
-		background-color: #ccc;
+		font-size: 30px;
 		border-radius: 2px;
 		margin: 2px;
 		padding: 4px;
+		color: #8a8a8a;
 	}
 	.edit-item-Selected{
-		font-size: 40px;
-		background-color: #888;
-		border-radius: 2px;
+		font-size: 30px;
+		background-color: #ecf5ff;
+		border-radius: 100rpx;
 		margin: 2px;
 		padding: 4px;
+		color: #007AFF;
 	}
-	.editName{
+	.edit-name{
 		display: inline-block;
+		color: #8a8a8a;
 	}
 	.scroll-view {
 		/* #ifndef APP-NVUE */
@@ -156,6 +199,7 @@
 	
 	.canvasBox{
 		/* margin:4px; */
+		height:auto;
 	}
 	
 	.textArea{
@@ -177,6 +221,7 @@
 		font-size:22px;
 		margin-top:2px;
 		margin-right:6px;
+		white-space: nowrap;
 	}
 	.func1{
 		font-size:20px;
@@ -228,3 +273,108 @@
 		font-size: 18px;
 		letter-spacing:4px;
 	}
+.box-2{
+	position: fixed;
+	z-index: 2;
+	box-sizing: content-box;
+	left: 0;
+	right: 0;
+	width: 100%;
+	bottom: 0;
+	height: auto;
+	box-shadow: 0 -5px 5px #ecf5ff;
+	background-color: #fff;
+	padding: 8px;
+	padding-bottom: 10px;
+}
+.func-area {
+	display: grid;
+	grid-template-columns: 10% 70% 20%;
+}
+.sub-button {
+	border-radius: 100rpx;
+	background-color: #ecf5ff;
+	color: #007AFF;
+	font-weight: bold;
+	box-shadow: 2rpx 2rpx 5rpx #ecf5ff;
+}
+.funcbar {
+	margin: 4px; 
+}
+.add-area{}
+.add-button{
+	border-radius: 100rpx;
+	background-color: #007AFF;
+	color: #fff;
+	box-shadow: 2rpx 2rpx 5rpx #007AFF;
+}
+.modify-area{
+	display: flex;
+	flex-direction: row;
+}
+.modify-button{
+	border-radius: 100rpx;
+	background-color: #19be6b;
+	color: #fff;
+	box-shadow: 2rpx 2rpx 5rpx #19be6b;
+}
+.input-area{
+	background-color: #ecf5ff;
+	border-radius: 40rpx;
+	align-items: center;
+	padding: 10rpx 16rpx;
+}
+.more {
+	padding: 10rpx;
+	height: 60rpx;
+	align-self: auto;
+	align-items: center;
+	text-align: center;
+	border-radius: 100rpx;
+	background-color: #ecf5ff;
+}
+.detail-func-area {
+	height: 90px;
+	padding: 8px;
+	align-items: center;
+	text-align: center;
+}
+.Qr-area {
+	display: grid;
+	grid-template-columns: repeat(5, 20%);
+	position: absolute;
+}
+.detail-func {
+	font-color: #8a8a8a;
+	text-align: center;
+}
+/* .flex-col{
+	display: flex;
+	flex-direction: row;
+} */
+.colors{
+	display: flex;
+	flex-direction: column;
+}
+.content{
+	background-color: #fff;
+	height: 64rpx;
+	padding: 0 20rpx;
+	border-radius: 32rpx;
+	font-size: 28rpx;
+}
+
+.send{
+	background-color: #42b983;
+	color: #fff;
+	height: 64rpx;
+	margin-left: 20rpx;
+	border-radius: 32rpx;
+	padding: 0;
+	width: 120rpx;
+	line-height: 62rpx;
+	
+	&:active{
+		background-color: #5fc496;
+	}
+}

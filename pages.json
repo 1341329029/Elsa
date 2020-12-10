@@ -1,5 +1,14 @@
 {
+	"easycom": {
+			"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+		},
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path":"pages/easy-scroll/easy-scroll",
+			"style": {
+				"navigationBarTitleText": "分类"
+			}
+		},
 		{
 			"path":"pages/frameChoose/frameChoose",
 			"style": {
@@ -7,15 +16,9 @@
 			}
 		},
 		{
-			"path":"pages/phoneChoose/phoneChoose",
-			"style": {
-				"navigationBarTitleText": "分类"
-			}
-		},
-		{
 			"path":"pages/wm-poster/wm-poster",
 			"style": {
-				"navigationBarTitleText": "海报编辑"
+				"navigationStyle":"custom"
 			}
 		}
 	],
